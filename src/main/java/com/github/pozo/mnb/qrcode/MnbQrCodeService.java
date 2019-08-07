@@ -23,7 +23,7 @@ public class MnbQrCodeService {
     private final FieldValidatorService validator = new DefaultFieldValidatorService();
 
     public boolean validate(MnbQrCode mnbQrCode) {
-        checkNotNull(mnbQrCode);
+        checkNotNull(mnbQrCode, "The 'mnbQrCode' parameter can't be null!");
 
         for (QrCodeFields field : QrCodeFields.values()) {
             boolean isValid = validator.validate(mnbQrCode, field);
@@ -36,7 +36,7 @@ public class MnbQrCodeService {
     }
 
     public String serialize(MnbQrCode mnbQrCode) {
-        checkNotNull(mnbQrCode);
+        checkNotNull(mnbQrCode, "The 'mnbQrCode' parameter can't be null!");
 
         final StringBuilder qrCode = new StringBuilder();
 
@@ -50,14 +50,14 @@ public class MnbQrCodeService {
     }
 
     public boolean validate(String mnbQrCode) {
-        checkNotNull(mnbQrCode);
+        checkNotNull(mnbQrCode, "The 'mnbQrCode' parameter can't be null!");
 
         final String[] parsedFields = mnbQrCode.split(FIELD_SEPARATOR);
         return parsedFields.length == QrCodeFields.values().length;
     }
 
     public MnbQrCode deserialize(String mnbQrCode) {
-        checkNotNull(mnbQrCode);
+        checkNotNull(mnbQrCode, "The 'mnbQrCode' parameter can't be null!");
 
         final String[] parsedFields = mnbQrCode.split(FIELD_SEPARATOR, -1);
         final MnbQrCodeRawBuilder builder = new MnbQrCodeRawBuilder();

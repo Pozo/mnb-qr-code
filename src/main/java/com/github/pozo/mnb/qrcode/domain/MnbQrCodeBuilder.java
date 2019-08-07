@@ -1,6 +1,7 @@
 package com.github.pozo.mnb.qrcode.domain;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 public class MnbQrCodeBuilder {
 
@@ -38,7 +39,7 @@ public class MnbQrCodeBuilder {
 
     private String verificationNumberOfNAV;
 
-    public MnbQrCodeBuilder(
+    MnbQrCodeBuilder(
             IdentificationCode identificationCode,
             String versionNumber,
             String characterSet,
@@ -47,13 +48,19 @@ public class MnbQrCodeBuilder {
             String payerOrBeneficiaryIBAN,
             String validity
     ) {
-        checkNotNull(identificationCode);
-        checkNotNull(versionNumber);
-        checkNotNull(characterSet);
-        checkNotNull(payerOrBeneficiaryBIC);
-        checkNotNull(payerOrBeneficiaryName);
-        checkNotNull(payerOrBeneficiaryIBAN);
-        checkNotNull(validity);
+        checkNotNull(identificationCode, "The 'identificationCode' parameter can't be null!");
+        checkNotNull(versionNumber, "The 'versionNumber' parameter can't be null!");
+        checkState(!versionNumber.isEmpty(), "The 'versionNumber' parameter can't be empty!");
+        checkNotNull(characterSet, "The 'characterSet' parameter can't be null!");
+        checkState(!characterSet.isEmpty(), "The 'characterSet' parameter can't be empty!");
+        checkNotNull(payerOrBeneficiaryBIC, "The 'payerOrBeneficiaryBIC' parameter can't be null!");
+        checkState(!payerOrBeneficiaryBIC.isEmpty(), "The 'payerOrBeneficiaryBIC' parameter can't be empty!");
+        checkNotNull(payerOrBeneficiaryName, "The 'payerOrBeneficiaryName' parameter can't be null!");
+        checkState(!payerOrBeneficiaryName.isEmpty(), "The 'payerOrBeneficiaryName' parameter can't be empty!");
+        checkNotNull(payerOrBeneficiaryIBAN, "The 'payerOrBeneficiaryIBAN' parameter can't be null!");
+        checkState(!payerOrBeneficiaryIBAN.isEmpty(), "The 'payerOrBeneficiaryIBAN' parameter can't be empty!");
+        checkNotNull(validity, "The 'validity' parameter can't be null!");
+        checkState(!validity.isEmpty(), "The 'validity' parameter can't be empty!");
 
         this.identificationCode = identificationCode;
         this.versionNumber = versionNumber;
