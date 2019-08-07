@@ -23,7 +23,7 @@ public class MnbQrCodeServiceTest {
         MnbQrCodeBuilder mnbQrCodeBuilder = new MnbQrCodeBuilderHCTWithDefaultValues(
                 "HUBUDOTP12",
                 "Zoltan",
-                "",
+                "IBAN",
                 "20190801121133+1"
         );
         MnbQrCode qrCode = mnbQrCodeBuilder.createMnbQrCode();
@@ -43,7 +43,7 @@ public class MnbQrCodeServiceTest {
         MnbQrCodeBuilder mnbQrCodeBuilder = new MnbQrCodeBuilderHCTWithDefaultValues(
                 "HUBUDOTP12",
                 "Zoltan",
-                "",
+                "IBAN",
                 "20190801121133+1"
         );
         mnbQrCodeBuilder.setAmountOfMoney(1200);
@@ -62,7 +62,7 @@ public class MnbQrCodeServiceTest {
         MnbQrCodeBuilder mnbQrCodeBuilder = new MnbQrCodeBuilderHCTWithDefaultValues(
                 "HUBUDOTP12",
                 "Zoltan",
-                "20190801121133",
+                "IBAN",
                 "20190801121133+1"
         );
         mnbQrCodeBuilder.setAmountOfMoney(1200);
