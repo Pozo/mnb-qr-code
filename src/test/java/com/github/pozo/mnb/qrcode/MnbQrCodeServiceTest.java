@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class MnbQrCodeServiceTest {
 
@@ -35,6 +36,24 @@ public class MnbQrCodeServiceTest {
         assertTrue(qrCodeContent.contains("HUBUDOTP12\n"));
         assertTrue(qrCodeContent.contains("Zoltan\n"));
         assertTrue(qrCodeContent.contains("20190801121133+1\n"));
+    }
+
+    @Test
+    public void validate() {
+        // GIVEN
+        MnbQrCodeBuilder mnbQrCodeBuilder = new MnbQrCodeBuilderHCTWithDefaultValues(
+                "HUB012345678910",
+                "Zoltan",
+                "IBAN",
+                "20190801121133+1"
+        );
+        MnbQrCode qrCode = mnbQrCodeBuilder.createMnbQrCode();
+
+        // WHEN
+        boolean isValid = underTest.validate(qrCode);
+
+        // THEN
+        assertFalse(isValid);
     }
 
     @Test
