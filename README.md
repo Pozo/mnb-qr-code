@@ -3,6 +3,10 @@ Implemented with the help of the [instant payment guide from MNB](https://www.mn
 
 Currently the implementation is not complete, it's under development. 
 
+### Build 
+  
+    ./gradlew clean build
+    
 ### Example
 
     MnbQrCodeService mnbQrCodeService = new MnbQrCodeService();
