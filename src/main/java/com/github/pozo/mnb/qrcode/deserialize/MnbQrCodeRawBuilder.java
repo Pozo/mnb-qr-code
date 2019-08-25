@@ -1,6 +1,6 @@
 package com.github.pozo.mnb.qrcode.deserialize;
 
-import com.github.pozo.mnb.qrcode.spec.QrCodeFields;
+import com.github.pozo.mnb.qrcode.specification.QrCodeFields;
 
 public class MnbQrCodeRawBuilder {
 

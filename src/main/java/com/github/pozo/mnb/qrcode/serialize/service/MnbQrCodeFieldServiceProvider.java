@@ -1,13 +1,11 @@
-package com.github.pozo.mnb.qrcode.serialize;
+package com.github.pozo.mnb.qrcode.serialize.service;
 
-import com.github.pozo.mnb.qrcode.serialize.fields.AmountOfMoneyService;
-import com.github.pozo.mnb.qrcode.serialize.fields.IdentificationCodeService;
-import com.github.pozo.mnb.qrcode.serialize.fields.StringFieldService;
-import com.github.pozo.mnb.qrcode.spec.QrCodeFields;
+import com.github.pozo.mnb.qrcode.serialize.FieldService;
+import com.github.pozo.mnb.qrcode.specification.QrCodeFields;
 
 import java.util.EnumMap;
 
-public class MnbQrCodeSerializers {
+public class MnbQrCodeFieldServiceProvider {
 
     private static final IdentificationCodeService IDENTIFICATION_CODE_SERVICE = new IdentificationCodeService();
 
@@ -17,7 +15,7 @@ public class MnbQrCodeSerializers {
 
     private final EnumMap<QrCodeFields, FieldService<?, ?>> services = new EnumMap<>(QrCodeFields.class);
 
-    public MnbQrCodeSerializers() {
+    public MnbQrCodeFieldServiceProvider() {
         services.put(QrCodeFields.IDENTIFICATION_CODE, IDENTIFICATION_CODE_SERVICE);
         services.put(QrCodeFields.VERSION_NUMBER, STRING_FIELD_SERVICE);
         services.put(QrCodeFields.CHARACTER_SET, STRING_FIELD_SERVICE);

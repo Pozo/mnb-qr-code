@@ -70,9 +70,10 @@ public class MnbQrCodeServiceTest {
 
         // WHEN
         String qrCodeContent = underTest.serialize(qrCode);
-        underTest.deserialize(qrCodeContent);
+        MnbQrCode deserialised = underTest.deserialize(qrCodeContent);
 
         // THEN
+        System.out.println("deserialised = " + deserialised);
     }
 
     @Test

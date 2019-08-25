@@ -1,7 +1,7 @@
-package com.github.pozo.mnb.qrcode.serialize.fields;
+package com.github.pozo.mnb.qrcode.serialize.service;
 
 import com.github.pozo.mnb.qrcode.serialize.FieldService;
-import com.github.pozo.mnb.qrcode.spec.QrCodeFields;
+import com.github.pozo.mnb.qrcode.specification.QrCodeFields;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -10,6 +10,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Optional.of;
 
 public class StringFieldService implements FieldService<String, String> {
+
+    StringFieldService() {
+    }
 
     @Override
     public Optional<String> validate(QrCodeFields field, Supplier<String> function) {

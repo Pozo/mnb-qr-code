@@ -1,19 +1,18 @@
-package com.github.pozo.mnb.qrcode.serialize;
+package com.github.pozo.mnb.qrcode.domain;
 
-import com.github.pozo.mnb.qrcode.domain.MnbQrCode;
-import com.github.pozo.mnb.qrcode.spec.QrCodeFields;
+import com.github.pozo.mnb.qrcode.specification.QrCodeFields;
 
 import java.util.EnumMap;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class FieldProviderService {
+public class MnbQrCodeFieldProvider {
 
     private final EnumMap<QrCodeFields, Function<MnbQrCode, ?>> fieldProviders = new EnumMap<>(QrCodeFields.class);
 
     private final Function<Optional<?>, ?> getOrNull = (optional) -> optional.orElse(null);
 
-    public FieldProviderService() {
+    public MnbQrCodeFieldProvider() {
         fieldProviders.put(QrCodeFields.IDENTIFICATION_CODE, MnbQrCode::getIdentificationCode);
         fieldProviders.put(QrCodeFields.VERSION_NUMBER, MnbQrCode::getVersionNumber);
         fieldProviders.put(QrCodeFields.CHARACTER_SET, MnbQrCode::getCharacterSet);

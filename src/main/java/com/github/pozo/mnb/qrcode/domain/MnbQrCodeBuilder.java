@@ -39,7 +39,7 @@ public class MnbQrCodeBuilder {
 
     private String verificationNumberOfNAV;
 
-    MnbQrCodeBuilder(
+    public MnbQrCodeBuilder(
             IdentificationCode identificationCode,
             String versionNumber,
             String characterSet,

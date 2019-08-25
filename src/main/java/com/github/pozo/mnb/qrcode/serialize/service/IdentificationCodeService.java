@@ -1,8 +1,8 @@
-package com.github.pozo.mnb.qrcode.serialize.fields;
+package com.github.pozo.mnb.qrcode.serialize.service;
 
 import com.github.pozo.mnb.qrcode.domain.IdentificationCode;
 import com.github.pozo.mnb.qrcode.serialize.FieldService;
-import com.github.pozo.mnb.qrcode.spec.QrCodeFields;
+import com.github.pozo.mnb.qrcode.specification.QrCodeFields;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -11,6 +11,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Optional.of;
 
 public class IdentificationCodeService implements FieldService<IdentificationCode, String> {
+
+    IdentificationCodeService() {
+    }
 
     @Override
     public IdentificationCode deserialize(Supplier<String> function) {

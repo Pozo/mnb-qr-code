@@ -1,4 +1,4 @@
-package com.github.pozo.mnb.qrcode.spec;
+package com.github.pozo.mnb.qrcode.specification;
 
 public enum QrCodeFields {
 

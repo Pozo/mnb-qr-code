@@ -1,7 +1,7 @@
-package com.github.pozo.mnb.qrcode.serialize.fields;
+package com.github.pozo.mnb.qrcode.serialize.service;
 
 import com.github.pozo.mnb.qrcode.serialize.FieldService;
-import com.github.pozo.mnb.qrcode.spec.QrCodeFields;
+import com.github.pozo.mnb.qrcode.specification.QrCodeFields;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -12,6 +12,9 @@ import static java.util.Optional.of;
 public class AmountOfMoneyService implements FieldService<Integer, String> {
 
     private static final String HUF = "HUF";
+
+    AmountOfMoneyService() {
+    }
 
     @Override
     public Integer deserialize(Supplier<String> function) {
