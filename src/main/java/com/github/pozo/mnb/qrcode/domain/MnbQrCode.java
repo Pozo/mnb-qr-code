@@ -1,5 +1,6 @@
 package com.github.pozo.mnb.qrcode.domain;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
@@ -126,6 +127,35 @@ public class MnbQrCode {
 
     public Optional<String> getVerificationNumberOfNAV() {
         return ofNullable(verificationNumberOfNAV);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MnbQrCode mnbQrCode = (MnbQrCode) o;
+        return identificationCode == mnbQrCode.identificationCode &&
+                Objects.equals(versionNumber, mnbQrCode.versionNumber) &&
+                Objects.equals(characterSet, mnbQrCode.characterSet) &&
+                Objects.equals(payerOrBeneficiaryBIC, mnbQrCode.payerOrBeneficiaryBIC) &&
+                Objects.equals(payerOrBeneficiaryName, mnbQrCode.payerOrBeneficiaryName) &&
+                Objects.equals(payerOrBeneficiaryIBAN, mnbQrCode.payerOrBeneficiaryIBAN) &&
+                Objects.equals(amountOfMoney, mnbQrCode.amountOfMoney) &&
+                Objects.equals(validity, mnbQrCode.validity) &&
+                Objects.equals(paymentSituationIdentifier, mnbQrCode.paymentSituationIdentifier) &&
+                Objects.equals(statement, mnbQrCode.statement) &&
+                Objects.equals(commercialUnitIdentifier, mnbQrCode.commercialUnitIdentifier) &&
+                Objects.equals(merchantDeviceIdentifier, mnbQrCode.merchantDeviceIdentifier) &&
+                Objects.equals(invoiceOrReceiptIdentifier, mnbQrCode.invoiceOrReceiptIdentifier) &&
+                Objects.equals(customerIdentifier, mnbQrCode.customerIdentifier) &&
+                Objects.equals(beneficiaryInternalTransactionIdentifier, mnbQrCode.beneficiaryInternalTransactionIdentifier) &&
+                Objects.equals(beneficiaryOrRegularCustomerIdentifier, mnbQrCode.beneficiaryOrRegularCustomerIdentifier) &&
+                Objects.equals(verificationNumberOfNAV, mnbQrCode.verificationNumberOfNAV);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(identificationCode, versionNumber, characterSet, payerOrBeneficiaryBIC, payerOrBeneficiaryName, payerOrBeneficiaryIBAN, amountOfMoney, validity, paymentSituationIdentifier, statement, commercialUnitIdentifier, merchantDeviceIdentifier, invoiceOrReceiptIdentifier, customerIdentifier, beneficiaryInternalTransactionIdentifier, beneficiaryOrRegularCustomerIdentifier, verificationNumberOfNAV);
     }
 
     @Override
