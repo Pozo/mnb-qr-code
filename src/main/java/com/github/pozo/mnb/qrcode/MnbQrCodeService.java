@@ -10,6 +10,7 @@ import com.github.pozo.mnb.qrcode.serialize.service.MnbQrCodeFieldServiceProvide
 import com.github.pozo.mnb.qrcode.specification.QrCodeFields;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -45,14 +46,17 @@ public class MnbQrCodeService {
     public MnbQrCode deserialize(String mnbQrCode) {
         checkNotNull(mnbQrCode, "The 'mnbQrCode' parameter can't be null!");
 
-        MnbQrCodeRawBuilder qrCode = new MnbQrCodeRawBuilder();
-        String[] fields = mnbQrCode.split(FIELD_SEPARATOR, -1);
+        final MnbQrCodeRawBuilder qrCode = new MnbQrCodeRawBuilder();
+        final String[] fields = mnbQrCode.split(FIELD_SEPARATOR, -1);
 
-        for (QrCodeFields value : QrCodeFields.values()) {
-            final FieldService fieldService = serializers.getServiceFor(value);
+        for (QrCodeFields field : QrCodeFields.values()) {
+            final FieldService fieldService = serializers.getServiceFor(field);
+            final String fieldValue = Optional.of(fieldService)
+                    .map(it -> it.deserialize(() -> fields[field.ordinal()]))
+                    .map(Object::toString)
+                    .orElse(null);
 
-            // TODO toString
-            qrCode.set(value, fieldService.deserialize(() -> fields[value.ordinal()]) + "");
+            qrCode.set(field, fieldValue);
         }
 
         final MnbQrCodeRaw rawMnbQrCode = qrCode.createMnbQrCode();
@@ -63,7 +67,7 @@ public class MnbQrCodeService {
     public boolean validate(MnbQrCode mnbQrCode) {
         checkNotNull(mnbQrCode, "The 'mnbQrCode' parameter can't be null!");
 
-        List<String> listOfErrors = validateAnRetrieveErrors(mnbQrCode);
+        final List<String> listOfErrors = validateAnRetrieveErrors(mnbQrCode);
 
         return listOfErrors.isEmpty();
     }
@@ -75,15 +79,14 @@ public class MnbQrCodeService {
 
         for (QrCodeFields value : QrCodeFields.values()) {
             final FieldService fieldService = serializers.getServiceFor(value);
-            Function<MnbQrCode, ?> fieldProviderFor = mnbQrCodeFieldProviders.getFieldProviderFor(value);
-            Supplier supplier = () -> fieldProviderFor.apply(mnbQrCode);
+            final Function<MnbQrCode, ?> fieldProviderFor = mnbQrCodeFieldProviders.getFieldProviderFor(value);
+            final Supplier supplier = () -> fieldProviderFor.apply(mnbQrCode);
             final Optional<String> error = fieldService.validate(value, supplier);
-
 
             error.ifPresent(listOfErrors::add);
         }
 
-        return listOfErrors;
+        return Collections.unmodifiableList(listOfErrors);
     }
 
 }

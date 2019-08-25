@@ -5,6 +5,8 @@ import com.github.pozo.mnb.qrcode.domain.IdentificationCode;
 import com.github.pozo.mnb.qrcode.domain.MnbQrCode;
 import com.github.pozo.mnb.qrcode.domain.MnbQrCodeBuilder;
 
+import java.util.Optional;
+
 public class MnbQrCodeRawMapper {
 
     public MnbQrCode map(MnbQrCodeRaw mnbQrCodeRaw) {
@@ -35,11 +37,15 @@ public class MnbQrCodeRawMapper {
         return mnbQrCodeBuilder.createMnbQrCode();
     }
 
-    private int mapAmountOfMoney(MnbQrCodeRaw mnbQrCodeRaw) {
-        return Integer.parseInt(mnbQrCodeRaw.getAmountOfMoney());
+    private Integer mapAmountOfMoney(MnbQrCodeRaw mnbQrCodeRaw) {
+        return Optional.ofNullable(mnbQrCodeRaw.getAmountOfMoney())
+                .map(Integer::parseInt)
+                .orElse(null);
     }
 
     private IdentificationCode mapIdentificationCode(MnbQrCodeRaw mnbQrCodeRaw) {
-        return IdentificationCode.valueOf(mnbQrCodeRaw.getIdentificationCode());
+        return Optional.ofNullable(mnbQrCodeRaw.getIdentificationCode())
+                .map(IdentificationCode::valueOf)
+                .orElse(null);
     }
 }
