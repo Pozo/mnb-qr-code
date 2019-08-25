@@ -170,7 +170,7 @@ public class MnbQrCodeRawBuilder {
                 setInvoiceOrReceiptIdentifier(parsedField);
                 break;
             case CUSTOMER_IDENTIFIER:
-                setCustomerIdentifier(customerIdentifier);
+                setCustomerIdentifier(parsedField);
                 break;
             case BENEFICIARY_INTERNAL_TRANSACTION_IDENTIFIER:
                 setBeneficiaryInternalTransactionIdentifier(parsedField);
