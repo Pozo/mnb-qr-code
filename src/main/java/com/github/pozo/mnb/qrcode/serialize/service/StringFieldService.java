@@ -20,10 +20,10 @@ public class StringFieldService implements FieldService<String, String> {
 
         final String value = function.get();
         if (field.isMandatory() && (value == null || value.isEmpty())) {
-            return of("Field cant be empty or null!");
+            return of(String.format("Field '%s' cant be empty or null!. The actual value is '%s'", field.name(), value));
         }
         if (value != null && (field.isFixedLength() && value.length() > field.getLength())) {
-            return of(String.format("Field cant be longer than %s!", field.getLength()));
+            return of(String.format("Field '%s' can't be longer than '%s'. The actual size is '%s'", field.name(), field.getLength(), value.length()));
         }
         return Optional.empty();
     }

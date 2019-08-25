@@ -46,10 +46,20 @@ public class AmountOfMoneyService implements FieldService<Integer, String> {
 
         final Integer value = function.get();
         if (field.isMandatory() && value == null) {
-            return of("Field cant be empty or null!");
+            return of(String.format("Field '%s' cant be null!", field.name()));
         }
-        if (field.isFixedLength() && (value + HUF).length() > field.getLength()) {
-            return of(String.format("Field cant be longer than %s!", field.getLength()));
+        final String valueWithPostfix = value + HUF;
+
+        if (field.isFixedLength() && valueWithPostfix.length() > field.getLength()) {
+            return of(
+                    String.format(
+                            "Field '%s' can't be longer than '%s' with the postfix '%s'. The actual size is '%s'",
+                            field.name(),
+                            field.getLength(),
+                            HUF,
+                            valueWithPostfix.length()
+                    )
+            );
         }
         return Optional.empty();
     }

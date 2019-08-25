@@ -17,7 +17,15 @@ public class IdentificationCodeService implements FieldService<IdentificationCod
 
     @Override
     public IdentificationCode deserialize(Supplier<String> function) {
-        return IdentificationCode.valueOf(function.get());
+        IdentificationCode identificationCode = null;
+
+        try {
+            identificationCode = IdentificationCode.valueOf(function.get());
+        } catch (IllegalArgumentException e) {
+
+        }
+
+        return identificationCode;
     }
 
     @Override
@@ -33,10 +41,10 @@ public class IdentificationCodeService implements FieldService<IdentificationCod
 
         final IdentificationCode value = function.get();
         if (field.isMandatory() && value == null) {
-            return of("Field cant be empty or null!");
+            return of(String.format("Field '%s' cant be null!", field.name()));
         }
         if (field.isFixedLength() && value.toString().length() > field.getLength()) {
-            return of(String.format("Field cant be longer than %s!", field.getLength()));
+            return of(String.format("Field '%s' can't be longer than '%s'. The actual size is '%s'", field.name(), field.getLength(), value.toString().length()));
         }
         return Optional.empty();
     }
