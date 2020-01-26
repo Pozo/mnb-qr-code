@@ -2,29 +2,23 @@ package com.github.pozo.mnb.qrcode;
 
 import com.github.pozo.mnb.qrcode.deserialize.MnbQrCodeRaw;
 import com.github.pozo.mnb.qrcode.deserialize.MnbQrCodeRawBuilder;
+import com.github.pozo.mnb.qrcode.deserialize.map.MnbQrCodeRawMapper;
 import com.github.pozo.mnb.qrcode.domain.MnbQrCode;
-import com.github.pozo.mnb.qrcode.domain.MnbQrCodeFieldProvider;
-import com.github.pozo.mnb.qrcode.map.MnbQrCodeRawMapper;
-import com.github.pozo.mnb.qrcode.serialize.FieldService;
-import com.github.pozo.mnb.qrcode.serialize.service.MnbQrCodeFieldServiceProvider;
+import com.github.pozo.mnb.qrcode.field.FieldService;
 import com.github.pozo.mnb.qrcode.specification.QrCodeFields;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class MnbQrCodeService {
+public class MnbQrCodeService implements MnbQrCodeApi {
 
     private static final String FIELD_SEPARATOR = "\n";
 
-    private final MnbQrCodeFieldServiceProvider serializers = new MnbQrCodeFieldServiceProvider();
-
-    private final MnbQrCodeFieldProvider mnbQrCodeFieldProviders = new MnbQrCodeFieldProvider();
+    private final FieldService fieldService = new FieldService();
 
     private final MnbQrCodeRawMapper mnbQrCodeRawMapper = new MnbQrCodeRawMapper();
 
@@ -33,10 +27,9 @@ public class MnbQrCodeService {
 
         final StringBuilder qrCode = new StringBuilder();
 
-        for (QrCodeFields value : QrCodeFields.values()) {
-            final FieldService fieldService = serializers.getServiceFor(value);
-
-            qrCode.append(fieldService.serialize(() -> mnbQrCodeFieldProviders.getFieldProviderFor(value).apply(mnbQrCode)));
+        for (QrCodeFields field : QrCodeFields.values()) {
+            final String serialize = fieldService.serialize(mnbQrCode, field);
+            qrCode.append(serialize);
             qrCode.append(FIELD_SEPARATOR);
         }
 
@@ -45,18 +38,19 @@ public class MnbQrCodeService {
 
     public MnbQrCode deserialize(String mnbQrCode) {
         checkNotNull(mnbQrCode, "The 'mnbQrCode' parameter can't be null!");
+        checkArgument(!mnbQrCode.isEmpty(), "The 'mnbQrCode' parameter can't be empty!");
 
         final MnbQrCodeRawBuilder qrCode = new MnbQrCodeRawBuilder();
         final String[] fields = mnbQrCode.split(FIELD_SEPARATOR, -1);
 
         for (QrCodeFields field : QrCodeFields.values()) {
-            final FieldService fieldService = serializers.getServiceFor(field);
-            final String fieldValue = Optional.of(fieldService)
-                    .map(it -> it.deserialize(() -> fields[field.ordinal()]))
-                    .map(Object::toString)
-                    .orElse(null);
+            final String fieldValue = fields[field.ordinal()];
+            if (fieldValue == null || fieldValue.isEmpty()) {
+                qrCode.set(field, null);
+            } else {
+                qrCode.set(field, fieldValue);
+            }
 
-            qrCode.set(field, fieldValue);
         }
 
         final MnbQrCodeRaw rawMnbQrCode = qrCode.createMnbQrCode();
@@ -77,13 +71,8 @@ public class MnbQrCodeService {
 
         final ArrayList<String> listOfErrors = new ArrayList<>();
 
-        for (QrCodeFields value : QrCodeFields.values()) {
-            final FieldService fieldService = serializers.getServiceFor(value);
-            final Function<MnbQrCode, ?> fieldProviderFor = mnbQrCodeFieldProviders.getFieldProviderFor(value);
-            final Supplier supplier = () -> fieldProviderFor.apply(mnbQrCode);
-            final Optional<String> error = fieldService.validate(value, supplier);
-
-            error.ifPresent(listOfErrors::add);
+        for (QrCodeFields field : QrCodeFields.values()) {
+            fieldService.validate(mnbQrCode, field).ifPresent(listOfErrors::add);
         }
 
         return Collections.unmodifiableList(listOfErrors);

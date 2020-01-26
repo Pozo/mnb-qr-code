@@ -1,4 +1,4 @@
-package com.github.pozo.mnb.qrcode.map;
+package com.github.pozo.mnb.qrcode.deserialize.map;
 
 import com.github.pozo.mnb.qrcode.deserialize.MnbQrCodeRaw;
 import com.github.pozo.mnb.qrcode.domain.IdentificationCode;
@@ -39,6 +39,7 @@ public class MnbQrCodeRawMapper {
 
     private Integer mapAmountOfMoney(MnbQrCodeRaw mnbQrCodeRaw) {
         return Optional.ofNullable(mnbQrCodeRaw.getAmountOfMoney())
+                .map(it -> it.replaceAll("[^\\d.]", ""))
                 .map(Integer::parseInt)
                 .orElse(null);
     }

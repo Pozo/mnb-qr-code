@@ -128,61 +128,61 @@ public class MnbQrCodeRawBuilder {
         );
     }
 
-    public void set(QrCodeFields field, String parsedField) {
+    public void set(QrCodeFields field, String fieldValue) {
         switch (field) {
             case IDENTIFICATION_CODE:
-                setIdentificationCode(parsedField);
+                setIdentificationCode(fieldValue);
                 break;
             case VERSION_NUMBER:
-                setVersionNumber(parsedField);
+                setVersionNumber(fieldValue);
                 break;
             case CHARACTER_SET:
-                setCharacterSet(parsedField);
+                setCharacterSet(fieldValue);
                 break;
             case PAYER_OR_BENEFICIARY_BIC:
-                setPayerOrBeneficiaryBIC(parsedField);
+                setPayerOrBeneficiaryBIC(fieldValue);
                 break;
             case PAYER_OR_BENEFICIARY_NAME:
-                setPayerOrBeneficiaryName(parsedField);
+                setPayerOrBeneficiaryName(fieldValue);
                 break;
             case PAYER_OR_BENEFICIARY_IBAN:
-                setPayerOrBeneficiaryIBAN(parsedField);
+                setPayerOrBeneficiaryIBAN(fieldValue);
                 break;
             case AMOUNT_OF_MONEY:
-                setAmountOfMoney(parsedField);
+                setAmountOfMoney(fieldValue);
                 break;
             case VALIDITY:
-                setValidity(parsedField);
+                setValidity(fieldValue);
                 break;
             case PAYMENT_SITUATION_IDENTIFIER:
-                setPaymentSituationIdentifier(parsedField);
+                setPaymentSituationIdentifier(fieldValue);
                 break;
             case STATEMENT:
-                setStatement(parsedField);
+                setStatement(fieldValue);
                 break;
             case COMMERCIAL_UNIT_IDENTIFIER:
-                setCommercialUnitIdentifier(parsedField);
+                setCommercialUnitIdentifier(fieldValue);
                 break;
             case MERCHANT_DEVICE_IDENTIFIER:
-                setMerchantDeviceIdentifier(parsedField);
+                setMerchantDeviceIdentifier(fieldValue);
                 break;
             case INVOICE_OR_RECEIPT_IDENTIFIER:
-                setInvoiceOrReceiptIdentifier(parsedField);
+                setInvoiceOrReceiptIdentifier(fieldValue);
                 break;
             case CUSTOMER_IDENTIFIER:
-                setCustomerIdentifier(parsedField);
+                setCustomerIdentifier(fieldValue);
                 break;
             case BENEFICIARY_INTERNAL_TRANSACTION_IDENTIFIER:
-                setBeneficiaryInternalTransactionIdentifier(parsedField);
+                setBeneficiaryInternalTransactionIdentifier(fieldValue);
                 break;
             case BENEFICIARY_OR_REGULAR_CUSTOMER_IDENTIFIER:
-                setBeneficiaryOrRegularCustomerIdentifier(parsedField);
+                setBeneficiaryOrRegularCustomerIdentifier(fieldValue);
                 break;
             case VERIFICATION_NUMBER_OF_NAV:
-                setVerificationNumberOfNAV(parsedField);
+                setVerificationNumberOfNAV(fieldValue);
                 break;
             default:
-                throw new IllegalArgumentException(String.format("There is no target field for parsed field '%s' with value '%s'", field, parsedField));
+                throw new IllegalArgumentException(String.format("There is no target field for parsed field '%s' with value '%s'", field, fieldValue));
         }
     }
 }

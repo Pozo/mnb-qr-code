@@ -1,37 +1,19 @@
-package com.github.pozo.mnb.qrcode.serialize.service;
+package com.github.pozo.mnb.qrcode.field.types;
 
-import com.github.pozo.mnb.qrcode.serialize.FieldService;
+import com.github.pozo.mnb.qrcode.field.FieldSerializer;
+import com.github.pozo.mnb.qrcode.field.FieldValidator;
 import com.github.pozo.mnb.qrcode.specification.QrCodeFields;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Optional.of;
 
-public class AmountOfMoneyService implements FieldService<Integer, String> {
+public class AmountOfMoneyField implements FieldValidator<Integer>, FieldSerializer<Integer, String> {
 
     private static final String HUF = "HUF";
 
-    AmountOfMoneyService() {
-    }
-
     @Override
-    public Integer deserialize(Supplier<String> function) {
-        String rawAmount = function.get();
-        rawAmount = rawAmount.replaceAll("[^\\d.]", "");
-
-        if (rawAmount.isEmpty()) {
-            return null;
-        } else {
-            return Integer.parseInt(rawAmount);
-        }
-
-    }
-
-    @Override
-    public String serialize(Supplier<Integer> function) {
-        Integer amount = function.get();
+    public String serialize(Integer amount) {
         if (amount != null) {
             return amount + HUF;
         } else {
@@ -41,10 +23,7 @@ public class AmountOfMoneyService implements FieldService<Integer, String> {
     }
 
     @Override
-    public Optional<String> validate(QrCodeFields field, Supplier<Integer> function) {
-        checkNotNull(function);
-
-        final Integer value = function.get();
+    public Optional<String> validate(QrCodeFields field, Integer value) {
         if (field.isMandatory() && value == null) {
             return of(String.format("Field '%s' cant be null!", field.name()));
         }

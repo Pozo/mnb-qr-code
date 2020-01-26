@@ -25,7 +25,7 @@ public class MnbQrCodeServiceTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    private MnbQrCodeService underTest = new MnbQrCodeService();
+    private MnbQrCodeApi underTest = new MnbQrCodeService();
 
     @Test
     public void serialize() {
@@ -108,6 +108,19 @@ public class MnbQrCodeServiceTest {
     }
 
     @Test
+    public void deserialize_WhenQrCode_IsEmpty() throws IOException {
+        // GIVEN
+        String QR_CODE_000 = loadTestFile("INVALID-QR-CODE-3");
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("The 'mnbQrCode' parameter can't be empty!");
+
+        // WHEN
+        underTest.deserialize(QR_CODE_000);
+        // THEN
+    }
+
+    @Test
     public void deserialize_WhenIdentificationCode_IsEmpty() throws IOException {
         // GIVEN
         String QR_CODE_000 = loadTestFile("INVALID-QR-CODE-0");
@@ -116,7 +129,20 @@ public class MnbQrCodeServiceTest {
         expectedException.expectMessage("The 'identificationCode' parameter can't be null!");
 
         // WHEN
-        MnbQrCode deserialized = underTest.deserialize(QR_CODE_000);
+        underTest.deserialize(QR_CODE_000);
+        // THEN
+    }
+
+    @Test
+    public void deserialize_WhenIdentificationCode_FormatIsWrong() throws IOException {
+        // GIVEN
+        String QR_CODE_002 = loadTestFile("INVALID-QR-CODE-2");
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("No enum constant com.github.pozo.mnb.qrcode.domain.IdentificationCode.XXX");
+
+        // WHEN
+        underTest.deserialize(QR_CODE_002);
         // THEN
     }
 
@@ -129,7 +155,7 @@ public class MnbQrCodeServiceTest {
         expectedException.expectMessage("The 'versionNumber' parameter can't be null!");
 
         // WHEN
-        MnbQrCode deserialized = underTest.deserialize(QR_CODE_001);
+        underTest.deserialize(QR_CODE_001);
         // THEN
     }
 
@@ -165,7 +191,6 @@ public class MnbQrCodeServiceTest {
         // WHEN
         String qrCodeContent = underTest.serialize(qrCode);
 
-        System.out.println("qrCodeContent = " + qrCodeContent);
         MnbQrCode deserialized = underTest.deserialize(qrCodeContent);
 
         // THEN
